@@ -8,21 +8,21 @@ interface FormElementInterface extends ResourceInterface
 {
     public function getId();
 
-    public function getType(): ?string;
+    public function getType(): string;
 
-    public function getName(): ?string;
+    public function getName(): string;
 
-    public function setName(?string $name);
+    public function setName(string $name);
 
-    public function setType(?string $type);
+    public function setType(string $type);
 
     public function getForm();
 
-    public function setForm($form);
+    public function setForm(FormInterface $form);
 
     public function getPosition();
 
-    public function setPositions();
+    public function setPosition(int $position);
 
     public function getOptions();
 

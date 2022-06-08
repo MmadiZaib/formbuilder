@@ -9,7 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * @ORM\Entity(repositoryClass=FormElementRepository::class)
  */
-class FormElement
+class FormElement implements FormElementInterface
 {
     /**
      * @ORM\Id
@@ -50,7 +50,7 @@ class FormElement
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
@@ -62,7 +62,7 @@ class FormElement
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -74,7 +74,7 @@ class FormElement
         return $this;
     }
 
-    public function getPosition(): ?int
+    public function getPosition(): int
     {
         return $this->position;
     }
@@ -86,12 +86,12 @@ class FormElement
         return $this;
     }
 
-    public function getForm(): ?Form
+    public function getForm()
     {
         return $this->form;
     }
 
-    public function setForm(?Form $form): self
+    public function setForm(FormInterface $form): self
     {
         $this->form = $form;
 
@@ -106,6 +106,31 @@ class FormElement
     public function setOptions(?array $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function getOption($option)
+    {
+        return $this->options[$option];
+    }
+
+    public function getExtra($extra, $default = null)
+    {
+        if (isset($this->options['extra']) && isset($this->options['extra'][$extra]))
+        {
+            return $this->options['extra'][$extra];
+        }
+
+        return $default;
+    }
+
+    public function setExtra($extra, $value)
+    {
+        if (!isset($this->options['extra']))
+        {
+            $this->options['extra'][$extra] = $value;
+        }
 
         return $this;
     }
