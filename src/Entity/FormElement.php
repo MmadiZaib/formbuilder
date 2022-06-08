@@ -40,6 +40,11 @@ class FormElement
      */
     private $form;
 
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $options = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +94,18 @@ class FormElement
     public function setForm(?Form $form): self
     {
         $this->form = $form;
+
+        return $this;
+    }
+
+    public function getOptions(): ?array
+    {
+        return $this->options;
+    }
+
+    public function setOptions(?array $options): self
+    {
+        $this->options = $options;
 
         return $this;
     }
