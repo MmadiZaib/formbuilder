@@ -1,0 +1,18 @@
+form:
+  form_builder:
+    actions:
+      new: Create New Form
+      create: Create Form
+      save: Save Form
+      preview: Preview Form
+      delete: Delete Form
+      back: Back to Forms
+      manage: Manage Fields
+
+  form_element:
+    actions:
+      new: Add Form Element
+      create: Create Element
+      save: Save Element
+      delete: Delete Element
+      back: Back to Form

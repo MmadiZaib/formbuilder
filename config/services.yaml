@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     locale: 'en'
+    form_builder.action_route: 'form_builder_process'
 
 services:
     # default configuration for services in *this* file
@@ -14,12 +15,88 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+
     App\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            - '../src/Controller/FormBuilderController.php'
+
+    App\Controller\FormBuilderController:
+        autowire: false
+        public: true
+
+    form_builder.builder.builder.base:
+        class: App\Builder\Field\BaseFieldBuilder
+        public: false
+
+    form_builder.builder.text:
+        class: App\Builder\Field\TextFieldBuilder
+        public: false
+        tags:
+            - { name: form_builder.builder, type: text}
+
+    form_builder.builder.textarea:
+        class: App\Builder\Field\TextAreaFieldBuilder
+        public: false
+        tags:
+            - { name: form_builder.builder, type: textarea }
+
+    form_builder.builder.checkbox:
+        class: App\Builder\Field\CheckboxFieldBuilder
+        public: false
+        tags:
+            - { name: form_builder.builder, type: checkbox }
+
+    form_builder.builder.email:
+        class: App\Builder\Field\EmailFieldBuilder
+        public: false
+        tags:
+            - { name: form_builder.builder, type: email }
+
+    form_builder.builder.choice:
+        class: App\Builder\Field\ChoiceFieldBuilder
+        public: false
+        tags:
+            - { name: form_builder.builder, type: choice }
+
+    form_builder.builder_registry:
+        public: true
+        class: App\Builder\FieldBuilderRegistry
+        arguments:
+            - '@form_builder.builder.builder.base'
+            - []
+
+    form_builder.form.processor:
+        class: App\Form\FormProcessor
+        arguments:
+            - '@form_builder.builder_registry'
+
+    form_builder.form.factory:
+        public: true
+        class: App\Form\FormBuilderFactory
+        arguments:
+            - '@form_builder.builder_registry'
+            - '@form.factory'
+            - '@event_dispatcher'
+            - '@router'
+            - '%form_builder.action_route%'
+
+    form.type.form_builder:
+        class: App\Form\Type\FormBuilderType
+        tags:
+            - { name: form.type, alias: form_builder}
+
+    form.type.form_element:
+        class: App\Form\Type\FormElementType
+        arguments:
+            - '@form_builder.builder_registry'
+        tags:
+            - { name: form.type, alias: form_element }
+
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

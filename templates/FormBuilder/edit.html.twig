@@ -1,0 +1,20 @@
+{% extends 'tabbed.html.twig' %}
+
+{% block title %} Form Builder &raquo; {{ resource.name }} &raquo; Edit {% endblock %}
+
+{% block form_actions %}
+        <a class="btn btn-info" href="{{ path('form_builder_index') }}">
+            {{ 'form.form_builder.actions.back'|trans }}
+        </a>
+
+        <button class="btn btn-primary" type="submit">
+                {{ 'form.form_builder.actions.save'|trans }}
+        </button>
+
+        <a class="btn btn-info" href="{{ path('form_builder_show', { 'id': resource.id }) }}">
+                {{ 'form.form_builder.actions.manage'|trans }}
+        </a>
+
+{% endblock %}
+
+

@@ -1,0 +1,14 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Form Builder &raquo; {{ form_builder.name }}{% endblock %}
+
+{% block actions %}
+    <a href="{{ path('form_builder_show', { 'id': form_builder.id }) }}">
+       Back To form
+    </a>
+{% endblock %}
+
+{% block content %}
+    <h2> {{ form_builder.legend }}</h2>
+    {{ form(form, { 'attr': {'class': 'ui form'}}) }}
+{% endblock %}

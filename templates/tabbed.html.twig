@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    {% if form is defined %}
+        {{ form_widget(form) }}
+    {% endif %}
+{% endblock %}
+
+{% block content_container %}
+        {% if form is defined %}
+
+            {{ form_start(form, {'attr': {'class': 'ui loadable form', 'id': 'main-crud-form' }}) }}
+        {% endif %}
+
+        {{ parent() }}
+
+        {% if form is defined %}
+            <button type="submit" id="main-crud-button"></button>
+            {{ form_end(form) }}
+        {% endif %}
+
+    {% block extra %}{% endblock %}
+
+{% endblock %}

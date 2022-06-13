@@ -1,3 +1,81 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+form_builder_process:
+    path: /{name}/process
+    methods: [POST]
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:processAction'
+        _sylius:
+            criteria:
+                name: $name
+            template: "FormBuilder/process.html.twig"
+
+form_builder_index:
+    path: /
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:indexAction'
+        _sylius:
+            template: "FormBuilder/index.html.twig"
+
+form_builder_create:
+    path: /new
+    methods: [GET, POST]
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:createAction'
+        _sylius:
+            template: "FormBuilder/new.html.twig"
+            redirect: form_builder_edit
+
+form_builder_show:
+    path: /{id}
+    methods: [GET]
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:showAction'
+        _sylius:
+            template: "FormBuilder/show.html.twig"
+
+form_builder_preview:
+    path: /{id}/preview
+    methods: [GET]
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:previewAction'
+        _sylius:
+            template: "FormBuilder/preview.html.twig"
+
+form_builder_edit:
+    path: /{id}/edit
+    methods: [GET, PUT, POST]
+    defaults:
+        _controller: 'App\Controller\FormBuilderController:updateAction'
+        _sylius:
+            template: "FormBuilder/edit.html.twig"
+            redirect: form_builder_edit
+
+form_element_choose:
+    path: /{formId}/element/choose
+    methods: [GET]
+    defaults:
+        _controller: 'App\Controller\FormElementController:chooseAction'
+        _sylius:
+            template: "FormElement/choose.html.twig"
+
+form_element_create:
+    path: /{formId}/element/{type}/new
+    methods: [GET, POST]
+    defaults:
+        _controller: 'App\Controller\FormElementController:createAction'
+        _sylius:
+            template: "FormElement/new.html.twig"
+            redirect:
+                route: form_builder_index
+                parameters: { id: $formId }
+                factory:
+                    method: createWithBuilder
+                    arguments: [$type, $formId]
+
+form_element_update:
+    path: /element/{id}/edit
+    methods: [GET, PUT, POST]
+    defaults:
+        _controller: 'App\Controller\FormElementController:updateAction'
+        _sylius:
+            template: "FormElement/edit.html.twig"
+            redirect: form_element_update

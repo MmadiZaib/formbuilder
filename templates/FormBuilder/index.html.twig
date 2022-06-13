@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Form Builder &raquo; List {% endblock %}
+
+{% block actions %}
+    <a href="{{ path('form_builder_index') }}">
+        {{ 'form.form_builder.actions.new'|trans }}
+    </a>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+               <th>Legend</th>
+               <th>Name</th>
+               <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for form_builder in resources %}
+            <tr>
+                <td>{{ form_builder.legend }}</td>
+                <td>{{ form_builder.name }}</td>
+                <td>
+                    <div>
+                        <a href="{{ path('form_builder_show', { 'id': form_builder.id }) }}">
+                            {{ 'form.form_builder.actions.manage'|trans }}
+                        </a>
+                        <a href="{{ path('form_builder_edit', { 'id': form_builder.id }) }}">
+                            Edit
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

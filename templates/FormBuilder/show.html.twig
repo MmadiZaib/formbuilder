@@ -1,0 +1,48 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Form Builder &raquo; {{ resource.name }} {% endblock %}
+
+{% block actions %}
+        <a class="ui button small" href="{{ path('form_builder_index') }}">
+                {{ 'form.form_builder.actions.back'|trans }}
+        </a>
+
+        <a class="ui button small positive" href="{{ path('form_element_choose', { formId: resource.id }) }}">
+                {{ 'form.form_element.actions.new'|trans }}
+        </a>
+
+{#        <a class="ui button small blue" href="{{ path('form_element_preview', { id: form_build.id }) }}">#}
+{#                {{ 'form.form_builder.actions.preview'|trans }}#}
+{#        </a>#}
+{% endblock %}
+
+{% block content %}
+        <h2> {{ resource.legend }}</h2>
+
+        <table class="ui table celled">
+                <thead>
+                   <tr>
+                           <th class="one wide">ID</th>
+                           <th class="one wide">Label</th>
+                           <th class="one wide">Type</th>
+                           <th class="one wide">Actions</th>
+                   </tr>
+                </thead>
+                <tbody data-toggle="sortable" data-url="">
+                {% for element in resource.formElements %}
+                        <tr data-id="{{ element.id }}">
+                                <td>{{ element.id }}</td>
+                                <td>{{ element.options.label|default('') }}</td>
+                                <td>{{ element.type|trans({}, 'formbuilder') }}</td>
+                                <td>
+                                        <a class="ui button tiny" href=" {{ path('form_element_update', { id: element.id }) }}">
+                                                Edit
+                                        </a>
+                                </td>
+                        </tr>
+                {% endfor %}
+                </tbody>
+        </table>
+{% endblock %}
+
+

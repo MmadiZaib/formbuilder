@@ -1,0 +1,22 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Form Builder &raquo; Add New Element {% endblock %}
+
+{% block actions %}
+    <a href="{{ path('form_builder_show', { id: formId}) }}">
+        Back To Form
+    </a>
+{% endblock %}
+
+{% block content %}
+    <h3>Choose Type</h3>
+    <ul>
+        {% for type in types %}
+            <li>
+                <a href="{{ path('form_element_create', {'formId': formId, 'type': type}) }}">
+                    {{ type|trans({}, 'formbuilder') }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
